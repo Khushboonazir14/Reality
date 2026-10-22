@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Reality.exe — BETWEEN. An experimental digital art exhibition exploring the space between distortion and clarity, darkness and light." />
+  <meta name="theme-color" content="#050505" />
+  <title>REALITY.EXE — BETWEEN | Somewhere Between</title>
+
+  <!-- Google Fonts: Syne (Display), Space Grotesk (Body/Editorial), JetBrains Mono (System/Identifiers) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet (Stage 2) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="is-loading" data-theme="void">
+
+  <!-- Accessibility Skip Link -->
+  <a href="#exhibition-start" class="skip-link">Skip to Exhibition</a>
+
+  <!-- Ambient Film Grain & Glitch Distortion SVG Filters -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <svg class="svg-filters" aria-hidden="true">
+    <defs>
+      <filter id="reality-distortion">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015 0.08" numOctaves="2" result="warp" />
+        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="0" in="SourceGraphic" in2="warp" id="displacement-map" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Custom Interactive Cursor -->
+  <div class="custom-cursor" id="custom-cursor" aria-hidden="true">
+    <span class="cursor-crosshair"></span>
+    <span class="cursor-label" id="cursor-label">INSPECT</span>
+  </div>
+
+  <!-- Minimal System HUD / Navigation -->
+  <header class="hud-header" id="hud-header">
+    <div class="hud-left">
+      <a href="#hero" class="brand-signature" data-glitch="REALITY.EXE">
+        <span class="status-dot"></span>
+        <span class="brand-text">REALITY.EXE</span>
+      </a>
+      <span class="hud-divider">/</span>
+      <span class="hud-collection">BETWEEN [10/10]</span>
+    </div>
+
+    <nav class="hud-nav" aria-label="Exhibition Navigation">
+      <a href="#concept" class="hud-link" data-nav="concept">01. STATEMENT</a>
+      <a href="#gallery" class="hud-link" data-nav="gallery">02. REALITIES</a>
+      <button type="button" class="hud-index-btn" id="index-toggle-btn" aria-expanded="false" aria-controls="archive-drawer">
+        <span>INDEX [10]</span>
+      </button>
+    </nav>
+
+    <div class="hud-right">
+      <div class="scroll-progress-wrap" aria-hidden="true">
+        <span class="scroll-Readout" id="scroll-readout">000%</span>
+        <div class="scroll-bar-track">
+          <div class="scroll-bar-fill" id="scroll-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Quick Index Drawer (Accessible Jump Menu for all 10 Artworks) -->
+  <aside class="archive-drawer" id="archive-drawer" aria-hidden="true" aria-label="Artwork Archive Index">
+    <div class="drawer-header">
+      <span class="mono-tag">ARCHIVE // DIRECTORY [des1 — des10]</span>
+      <button type="button" class="drawer-close" id="drawer-close-btn" aria-label="Close Index">[ESC / CLOSE]</button>
+    </div>
+    <ol class="drawer-list">
+      <li><a href="#artwork-des1" class="drawer-item" data-id="des1"><span class="drawer-id">des1</span><span class="drawer-title">Freedom</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des2" class="drawer-item" data-id="des2"><span class="drawer-id">des2</span><span class="drawer-title">Balance</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des3" class="drawer-item" data-id="des3"><span class="drawer-id">des3</span><span class="drawer-title">Time</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des4" class="drawer-item" data-id="des4"><span class="drawer-id">des4</span><span class="drawer-title">Identity</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des5" class="drawer-item" data-id="des5"><span class="drawer-id">des5</span><span class="drawer-title">Memories</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des6" class="drawer-item" data-id="des6"><span class="drawer-id">des6</span><span class="drawer-title">Hope</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des7" class="drawer-item" data-id="des7"><span class="drawer-id">des7</span><span class="drawer-title">Healing</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des8" class="drawer-item" data-id="des8"><span class="drawer-id">des8</span><span class="drawer-title">Lost —</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des9" class="drawer-item" data-id="des9"><span class="drawer-id">des9</span><span class="drawer-title">Overthinking</span><span class="drawer-edition">1/1</span></a></li>
+      <li><a href="#artwork-des10" class="drawer-item" data-id="des10"><span class="drawer-id">des10</span><span class="drawer-title">Isolation</span><span class="drawer-edition">1/1</span></a></li>
+    </ol>
+  </aside>
+
+  <!-- Smooth Scroll Wrapper -->
+  <div id="smooth-wrapper">
+    <main id="smooth-content">
+
+      <!-- =================================================================
+           A. OPENING / HERO SECTION
+           ================================================================= -->
+      <section class="hero-section" id="hero" aria-label="Introduction">
+        <div class="hero-bg-ambient" aria-hidden="true">
+          <!-- Subtle atmospheric echo of des1 without obscuring the main gallery -->
+          <img src="assets/des1.gif" alt="" class="hero-ambient-gif" loading="eager" />
+          <div class="hero-vignette"></div>
+        </div>
+
+        <div class="hero-container">
+          <div class="hero-meta-top">
+            <span class="mono-label" data-reveal="line">SYS.INIT // EXHIBITION_01</span>
+            <span class="mono-label" data-reveal="line">COLLECTION: 10 1/1 ANIMATED ARTWORKS</span>
+            <span class="mono-label" data-reveal="line">CURATED BY <span id="artist-name-hero">THE ARTIST</span></span>
+          </div>
+
+          <div class="hero-title-block">
+            <h1 class="hero-main-title" data-glitch-title="REALITY.EXE">
+              <span class="title-row" data-reveal="char">REALITY<span class="accent-dot">.</span>EXE</span>
+            </h1>
+            <div class="hero-sub-row">
+              <span class="between-badge" data-reveal="fade">BETWEEN</span>
+              <p class="hero-subtitle" data-reveal="words">
+                Somewhere between falling apart and finding ourselves.
+              </p>
+            </div>
+          </div>
+
+          <div class="hero-footer">
+            <div class="hero-coordinates mono-label">
+              <span>STATE: DISTORTION &harr; CLARITY</span>
+              <span>ETHEREUM // 0xbae1...baa04</span>
+            </div>
+
+            <a href="#concept" class="scroll-prompt" aria-label="Scroll to enter experience">
+              <span class="scroll-prompt-text">ENTER THE IN-BETWEEN</span>
+              <span class="scroll-line-indicator"></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           B. CONCEPTUAL INTRODUCTION (THE MEANING BEHIND BETWEEN)
+           ================================================================= -->
+      <section class="concept-section" id="concept" aria-labelledby="concept-heading">
+        <div id="exhibition-start"></div>
+        <div class="concept-container">
+          
+          <div class="concept-header">
+            <span class="mono-tag">01 // MANIFESTO</span>
+            <h2 id="concept-heading" class="visually-hidden">The Meaning Behind BETWEEN</h2>
+          </div>
+
+          <!-- Staggered Editorial Typography preserving exact artist statement -->
+          <div class="manifesto-stream">
+            <div class="manifesto-block" data-scroll-step="1">
+              <p class="manifesto-lead">
+                <span class="reveal-phrase" data-tone="glitch">The glitches represent the moments when reality feels distorted.</span>
+                <span class="reveal-phrase" data-tone="dark">The darkness represents uncertainty.</span>
+                <span class="reveal-phrase" data-tone="light">The light represents the part of us that hasn’t given up.</span>
+              </p>
+            </div>
+
+            <div class="manifesto-block manifesto-offset-right" data-scroll-step="2">
+              <p class="manifesto-body">
+                Every piece is a different reality, but they all belong to the same human experience.
+              </p>
+            </div>
+
+            <div class="manifesto-axis-divider" aria-hidden="true">
+              <span class="axis-label">DARKNESS / UNCERTAINTY</span>
+              <span class="axis-line"></span>
+              <span class="axis-center">WHY BETWEEN?</span>
+              <span class="axis-line"></span>
+              <span class="axis-label">LIGHT / PERSISTENCE</span>
+            </div>
+
+            <div class="manifesto-block manifesto-center" data-scroll-step="3">
+              <h3 class="manifesto-question">Why BETWEEN?</h3>
+              <p class="manifesto-body">
+                Because life rarely happens at the extremes. We exist somewhere between falling apart and finding ourselves, between losing hope and finding a reason to try again.
+              </p>
+            </div>
+
+            <div class="manifesto-block manifesto-climax" data-scroll-step="4">
+              <blockquote class="manifesto-quote">
+                “We are never just the darkness or the light.<br />
+                <span class="quote-highlight">We are everything in between.”</span>
+              </blockquote>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =================================================================
+           C & D. ARTWORK GALLERY & TRANSITIONS BETWEEN ARTWORKS
+           All 10 artworks preserved with exact titles and des1–des10 IDs
+           ================================================================= -->
+      <section class="gallery-section" id="gallery" aria-label="Animated Artwork Collection">
+
+        <div class="gallery-section-intro">
+          <div class="gallery-meta-bar">
+            <span class="mono-tag">02 // EXHIBITION ARCHIVE</span>
+            <span class="mono-tag">10 REALITIES [des1 — des10]</span>
+          </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------
+             CHAPTER I: THE THRESHOLD OF SELF (des1, des2)
+             Layout: Expansive Asymmetrical Monolith + Mirrored Counterweight
+             --------------------------------------------------------------- -->
+        <div class="gallery-chapter" data-chapter="I">
+          <div class="chapter-marker">
+            <span class="mono-tag">PHASE I // SYMMETRY &amp; ECLIPSE</span>
+          </div>
+
+          <!-- ARTWORK 01: des1 — Freedom -->
+          <article class="artwork-node layout-monolith-left" id="artwork-des1" data-id="des1" data-title="Freedom" data-index="01" data-transition="clip-eclipse">
+            <div class="artwork-stage">
+              <figure class="artwork-frame" data-interactive="inspect">
+                <div class="artwork-media-wrap">
+                  <!-- Placeholder path mapped to internal identifier des1 -->
+                  <img src="assets/des1.gif" alt="Freedom — Animated glitch artwork showing a lone figure walking across a reflective expanse toward a fractured solar eclipse and flying birds" class="artwork-gif" id="img-des1" loading="eager" />
+                </div>
+                <figcaption class="artwork-caption">
+                  <div class="caption-top">
+                    <span class="artwork-id">des1</span>
+                    <span class="artwork-edition">EDITION 1/1</span>
+                  </div>
+                  <div class="caption-main">
+                    <h3 class="artwork-title">Freedom</h3>
+                    <button type="button" class="artwork-inspect-trigger" data-target="des1" aria-label="Inspect Freedom in full screen">
+                      <span>EXPAND REALITY</span>
+                    </button>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="artwork-whisper" aria-hidden="true">01 / FREEDOM</div>
+          </article>
+
+          <!-- Transition Bridge 01 -> 02 -->
+          <div class="reality-transition transition-symmetry" aria-hidden="true">
+            <span class="transition-line"></span>
+            <span class="transition-code">AXIS_SHIFT // DUALITY</span>
+          </div>
+
+          <!-- ARTWORK 02: des2 — Balance -->
+          <article class="artwork-node layout-offset-right" id="artwork-des2" data-id="des2" data-title="Balance" data-index="02" data-transition="mirror-split">
+            <div class="artwork-stage">
+              <figure class="artwork-frame" data-interactive="inspect">
+                <div class="artwork-media-wrap">
+                  <!-- Placeholder path mapped to internal identifier des2 -->
+                  <img src="assets/des2.gif" alt="Balance — Animated diamond-shaped glitch reflection with a lone figure standing between light and dark worlds" class="artwork-gif" id="img-des2" loading="lazy" />
+                </div>
+                <figcaption class="artwork-caption">
+                  <div class="caption-top">
+                    <span class="artwork-id">des2</span>
+                    <span class="artwork-edition">EDITION 1/1</span>
+                  </div>
+                  <div class="caption-main">
+                    <h3 class="artwork-title">Balance</h3>
+                    <button type="button" class="artwork-inspect-trigger" data-target="des2" aria-label="Inspect Balance in full screen">
+                      <span>EXPAND REALITY</span>
+                    </button>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="artwork-whisper" aria-hidden="true">02 / BALANCE</div>
+          </article>
+        </div>
+
+        <!-- ---------------------------------------------------------------
+             CHAPTER II: TEMPORAL FRACTURE (des3, des4)
+             Layout: Full-Height Vertical Rift + Intimate Portrait Overlap
+             --------------------------------------------------------------- -->
+        <div class="gallery-chapter" data-chapter="II">
+          <div class="chapter-marker">
+            <span class="mono-tag">PHASE II // TEMPORAL FRACTURE</span>
+          </div>
+
+          <div class="dual-composition-grid">
+            <!-- ARTWORK 03: des3 — Time -->
+            <article class="artwork-node layout-vertical-pillar" id="artwork-des3" data-id="des3" data-title="Time" data-index="03" data-transition="vertical-slit">
+              <div class="artwork-stage">
+                <figure class="artwork-frame" data-interactive="inspect">
+                  <div class="artwork-media-wrap">
+                    <!-- Placeholder path mapped to internal identifier des3 -->
+                    <img src="assets/des3.gif" alt="Time — Animated glitch portal of luminous blue sky parting dark architectural distortion behind a solitary silhouette" class="artwork-gif" id="img-des3" loading="lazy" />
+                  </div>
+                  <figcaption class="artwork-caption">
+                    <div class="caption-top">
+                      <span class="artwork-id">des3</span>
+                      <span class="artwork-edition">EDITION 1/1</span>
+                    </div>
+                    <div class="caption-main">
+                      <h3 class="artwork-title">Time</h3>
+                      <button type="button" class="artwork-inspect-trigger" data-target="des3" aria-label="Inspect Time in full screen">
+                        <span>EXPAND REALITY</span>
+                      </button>
+                    </div>
+                  </figcaption>
+                </figure>
+              </div>
+            </article>
+
+            <!-- ARTWORK 04: des4 — Identity -->
+            <article class="artwork-node layout-overlapping-portrait" id="artwork-des4" data-id="des4" data-title="Identity" data-index="04" data-transition="glitch-slice">
+              <div class="artwork-stage">
+                <figure class="artwork-frame" data-interactive="inspect">
+                  <div class="artwork-media-wrap">
+                    <!-- Placeholder path mapped to internal identifier des4 -->
+                    <img src="assets/des4.gif" alt="Identity — Animated profile portrait of a face dissolving into fragmented glitch blocks and ethereal smoke trails" class="artwork-gif" id="img-des4" loading="lazy" />
+                  </div>
+                  <figcaption class="artwork-caption">
+                    <div class="caption-top">
+                      <span class="artwork-id">des4</span>
+                      <span class="artwork-edition">EDITION 1/1</span>
+                    </div>
+                    <div class="caption-main">
+                      <h3 class="artwork-title">Identity</h3>
+                      <button type="button" class="artwork-inspect-trigger" data-target="des4" aria-label="Inspect Identity in full screen">
+                        <span>EXPAND REALITY</span>
+                      </button>
+                    </div>
+                  </figcaption>
+                </figure>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Interlude Quote Between Chapters -->
+        <div class="reality-interlude" data-scroll-interlude>
+          <p class="interlude-text">
+            <span>BETWEEN FALLING APART</span>
+            <span class="interlude-dash">&mdash;</span>
+            <span>AND FINDING OURSELVES</span>
+          </p>
+        </div>
+
+        <!-- ---------------------------------------------------------------
+             CHAPTER III: PINNED HORIZONTAL CONTINUUM (des5, des6, des7)
+             Layout: Horizontal Scroll Sequence on Desktop / Curated Stack on Mobile
+             --------------------------------------------------------------- -->
+        <div class="gallery-chapter horizontal-pin-section" id="horizontal-chapter" data-chapter="III">
+          <div class="horizontal-sticky-viewport">
+            <div class="horizontal-header-bar">
+              <span class="mono-tag">PHASE III // THE LUMINOUS DRIFT [des5 &rarr; des7]</span>
+              <span class="mono-tag horizontal-hint">SCROLL TO TRAVERSE &rarr;</span>
+            </div>
+
+            <div class="horizontal-track" id="horizontal-track">
+
+              <!-- ARTWORK 05: des5 — Memories -->
+              <article class="artwork-node horizontal-panel" id="artwork-des5" data-id="des5" data-title="Memories" data-index="05" data-transition="fragment-drift">
+                <div class="artwork-stage">
+                  <figure class="artwork-frame" data-interactive="inspect">
+                    <div class="artwork-media-wrap">
+                      <!-- Placeholder path mapped to internal identifier des5 -->
+                      <img src="assets/des5.gif" alt="Memories — Animated visual of a crouched silhouette beneath a glowing ring of suspended, fragmented visual memories" class="artwork-gif" id="img-des5" loading="lazy" />
+                    </div>
+                    <figcaption class="artwork-caption">
+                      <div class="caption-top">
+                        <span class="artwork-id">des5</span>
+                        <span class="artwork-edition">EDITION 1/1</span>
+                      </div>
+                      <div class="caption-main">
+                        <h3 class="artwork-title">Memories</h3>
+                        <button type="button" class="artwork-inspect-trigger" data-target="des5" aria-label="Inspect Memories in full screen">
+                          <span>EXPAND REALITY</span>
+                        </button>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </div>
+              </article>
+
+              <!-- ARTWORK 06: des6 — Hope -->
+              <article class="artwork-node horizontal-panel panel-elevated" id="artwork-des6" data-id="des6" data-title="Hope" data-index="06" data-transition="light-breach">
+                <div class="artwork-stage">
+                  <figure class="artwork-frame" data-interactive="inspect">
+                    <div class="artwork-media-wrap">
+                      <!-- Placeholder path mapped to internal identifier des6 -->
+                      <img src="assets/des6.gif" alt="Hope — Animated glitch doorway opening from pitch darkness into a radiant blue sky and clouds reflected below" class="artwork-gif" id="img-des6" loading="lazy" />
+                    </div>
+                    <figcaption class="artwork-caption">
+                      <div class="caption-top">
+                        <span class="artwork-id">des6</span>
+                        <span class="artwork-edition">EDITION 1/1</span>
+                      </div>
+                      <div class="caption-main">
+                        <h3 class="artwork-title">Hope</h3>
+                        <button type="button" class="artwork-inspect-trigger" data-target="des6" aria-label="Inspect Hope in full screen">
+                          <span>EXPAND REALITY</span>
+                        </button>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </div>
+              </article>
+
+              <!-- ARTWORK 07: des7 — Healing -->
+              <article class="artwork-node horizontal-panel" id="artwork-des7" data-id="des7" data-title="Healing" data-index="07" data-transition="chromatic-bloom">
+                <div class="artwork-stage">
+                  <figure class="artwork-frame" data-interactive="inspect">
+                    <div class="artwork-media-wrap">
+                      <!-- Placeholder path mapped to internal identifier des7 -->
+                      <img src="assets/des7.gif" alt="Healing — Animated translucent crystalline lotus flower emerging through glitch scanlines and dark noise" class="artwork-gif" id="img-des7" loading="lazy" />
+                    </div>
+                    <figcaption class="artwork-caption">
+                      <div class="caption-top">
+                        <span class="artwork-id">des7</span>
+                        <span class="artwork-edition">EDITION 1/1</span>
+                      </div>
+                      <div class="caption-main">
+                        <h3 class="artwork-title">Healing</h3>
+                        <button type="button" class="artwork-inspect-trigger" data-target="des7" aria-label="Inspect Healing in full screen">
+                          <span>EXPAND REALITY</span>
+                        </button>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </div>
+              </article>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------
+             CHAPTER IV: WEIGHT OF THE VOID (des8, des9, des10)
+             Layout: Abrupt Glitch Cut, Staggered Tension, Solitary Horizon Finale
+             --------------------------------------------------------------- -->
+        <div class="gallery-chapter" data-chapter="IV">
+          <div class="chapter-marker">
+            <span class="mono-tag">PHASE IV // DISTORTION &amp; STILLNESS</span>
+          </div>
+
+          <!-- ARTWORK 08: des8 — Lost — (Preserving exact punctuation "Lost —") -->
+          <article class="artwork-node layout-center-suspended" id="artwork-des8" data-id="des8" data-title="Lost —" data-index="08" data-transition="abrupt-cut">
+            <div class="artwork-stage">
+              <figure class="artwork-frame" data-interactive="inspect">
+                <div class="artwork-media-wrap">
+                  <!-- Placeholder path mapped to internal identifier des8 -->
+                  <img src="assets/des8.gif" alt="Lost — Animated floating inverted citadel suspended in dark clouds and vertical light beams" class="artwork-gif" id="img-des8" loading="lazy" />
+                </div>
+                <figcaption class="artwork-caption">
+                  <div class="caption-top">
+                    <span class="artwork-id">des8</span>
+                    <span class="artwork-edition">EDITION 1/1</span>
+                  </div>
+                  <div class="caption-main">
+                    <h3 class="artwork-title">Lost —</h3>
+                    <button type="button" class="artwork-inspect-trigger" data-target="des8" aria-label="Inspect Lost — in full screen">
+                      <span>EXPAND REALITY</span>
+                    </button>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="artwork-whisper" aria-hidden="true">08 / LOST —</div>
+          </article>
+
+          <!-- ARTWORK 09: des9 — Overthinking -->
+          <article class="artwork-node layout-asymmetric-left-heavy" id="artwork-des9" data-id="des9" data-title="Overthinking" data-index="09" data-transition="high-frequency-glitch">
+            <div class="artwork-stage">
+              <figure class="artwork-frame" data-interactive="inspect">
+                <div class="artwork-media-wrap">
+                  <!-- Placeholder path mapped to internal identifier des9 -->
+                  <img src="assets/des9.gif" alt="Overthinking — Animated upward-tilted head dissolving into a towering column of glitching static and architectural fragments" class="artwork-gif" id="img-des9" loading="lazy" />
+                </div>
+                <figcaption class="artwork-caption">
+                  <div class="caption-top">
+                    <span class="artwork-id">des9</span>
+                    <span class="artwork-edition">EDITION 1/1</span>
+                  </div>
+                  <div class="caption-main">
+                    <h3 class="artwork-title">Overthinking</h3>
+                    <button type="button" class="artwork-inspect-trigger" data-target="des9" aria-label="Inspect Overthinking in full screen">
+                      <span>EXPAND REALITY</span>
+                    </button>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="artwork-whisper" aria-hidden="true">09 / OVERTHINKING</div>
+          </article>
+
+          <!-- Transition Bridge 09 -> 10: From Chaos to Absolute Stillness -->
+          <div class="reality-transition transition-stillness" aria-hidden="true">
+            <span class="transition-code">SIGNAL_QUIET // ENTERING STILLNESS</span>
+          </div>
+
+          <!-- ARTWORK 10: des10 — Isolation -->
+          <article class="artwork-node layout-cinema-finale" id="artwork-des10" data-id="des10" data-title="Isolation" data-index="10" data-transition="slow-emerge">
+            <div class="artwork-stage">
+              <figure class="artwork-frame" data-interactive="inspect">
+                <div class="artwork-media-wrap">
+                  <!-- Placeholder path mapped to internal identifier des10 -->
+                  <img src="assets/des10.gif" alt="Isolation — Animated monochrome scene of a lone figure sitting on a cliff edge gazing at a glowing crescent eclipse over dark mist" class="artwork-gif" id="img-des10" loading="lazy" />
+                </div>
+                <figcaption class="artwork-caption">
+                  <div class="caption-top">
+                    <span class="artwork-id">des10</span>
+                    <span class="artwork-edition">EDITION 1/1 // COLLECTED</span>
+                  </div>
+                  <div class="caption-main">
+                    <h3 class="artwork-title">Isolation</h3>
+                    <button type="button" class="artwork-inspect-trigger" data-target="des10" aria-label="Inspect Isolation in full screen">
+                      <span>EXPAND REALITY</span>
+                    </button>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="artwork-whisper" aria-hidden="true">10 / ISOLATION</div>
+          </article>
+        </div>
+
+      </section>
+
+      <!-- =================================================================
+           E. CLOSING SECTION
+           ================================================================= -->
+      <footer class="closing-section" id="closing" aria-label="Exhibition Conclusion">
+        <div class="closing-container">
+          
+          <div class="closing-statement-wrap">
+            <span class="mono-tag">END OF SEQUENCE // REALITY.EXE</span>
+            <h2 class="closing-title" data-reveal="words">
+              We are never just the darkness or the light.<br />
+              <span class="closing-highlight">We are everything in between.</span>
+            </h2>
+          </div>
+
+          <div class="closing-actions">
+            <button type="button" class="reinitialize-btn" id="scroll-top-btn">
+              <span class="btn-bracket">[</span>
+              <span class="btn-text">REINITIALIZE REALITY.EXE</span>
+              <span class="btn-bracket">]</span>
+            </button>
+          </div>
+
+          <div class="closing-colophon">
+            <div class="colophon-col">
+              <span class="mono-label">EXHIBITION</span>
+              <p>REALITY.EXE — BETWEEN</p>
+            </div>
+            <div class="colophon-col">
+              <span class="mono-label">ARTIST</span>
+              <p id="artist-name-footer">CURATED VISUALS BY THE ARTIST</p>
+            </div>
+            <div class="colophon-col">
+              <span class="mono-label">ON-CHAIN PROVENANCE</span>
+              <p><a href="https://www.transient.xyz/nfts/ethereum/0xbae1e1f2a52ed69073bc44c4e2523c46fd0baa04" target="_blank" rel="noopener noreferrer" class="provenance-link">TRANSIENT.XYZ // ETHEREUM &nearr;</a></p>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- =================================================================
+       DEDICATED ARTWORK DETAIL / LIGHTBOX MODAL
+       Allows unobstructed, zero-distortion viewing of any GIF (des1–des10)
+       ================================================================= -->
+  <div class="reality-modal" id="reality-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-artwork-title">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-content">
+      <header class="modal-header">
+        <div class="modal-meta">
+          <span class="mono-tag" id="modal-artwork-id">des1</span>
+          <span class="mono-divider">//</span>
+          <span class="mono-tag" id="modal-artwork-index">01 OF 10</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close detail view">
+          <span>[CLOSE ESC]</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <div class="modal-media-container">
+          <img src="" alt="" class="modal-gif" id="modal-gif" />
+        </div>
+      </div>
+
+      <footer class="modal-footer">
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="modal-artwork-title">Freedom</h3>
+          <span class="modal-subtitle">BETWEEN — 1/1 EDITION</span>
+        </div>
+        <div class="modal-Controls">
+          <button type="button" class="modal-nav-btn" id="modal-prev-btn" aria-label="Previous Artwork">&larr; PREV</button>
+          <button type="button" class="modal-nav-btn" id="modal-next-btn" aria-label="Next Artwork">NEXT &rarr;</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Required Animation Libraries (GSAP + ScrollTrigger + Lenis Smooth Scroll) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+
+  <!-- Main Application Script (Stage 3) -->
+  <script src="script.js" defer></script>
+</body>
+</html>
